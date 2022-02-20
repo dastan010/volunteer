@@ -28,4 +28,9 @@ class UserController extends Controller
         $user = $this->users->find($id);
         $user->delete();
     }
+
+    public function getSingleUser(Request $request)
+    {
+        return User::where('name', 'like', '%'. $request->userName .'%')->get();
+    }
 }

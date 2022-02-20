@@ -42,6 +42,7 @@ Route::group([
         'namespace' => 'User'
     ], function() {
         Route::get('/all', [UserController::class, 'index']);
+        Route::post('/search-user', [UserController::class, 'getSingleUser']);
         Route::delete('/{id}', [UserController::class, 'destroy']);
     });
 

@@ -6,6 +6,8 @@ import ApiService from "@/services/api-service";
 export default function Users(props) {
 
     const [users, setUsers] = useState([]);
+    const [userName, setSearchInput] = useState('');
+
     const apiService = new ApiService();
 
     useEffect(() => {
@@ -24,6 +26,21 @@ export default function Users(props) {
         })
     }
 
+    const onSearchInput = (e) => {
+        setSearchInput(e.target.value)
+    }
+
+    const onClickSearch = () => {
+        apiService.searchUser({userName}).then(r => {
+            if (r.data.length > 0) {
+                setUsers(r.data);
+            } else {
+                setUsers([]);
+                alert('Пользователь не найден')
+            }
+        })
+    }
+
     return (
         <Authenticated
             auth={props.auth}
@@ -37,6 +54,17 @@ export default function Users(props) {
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <section>
                             <h1>Пользователи сайта</h1>
+                            <div style={{
+                                width: '26vw',
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                            }}>
+                                <input type="text" placeholder="Введите имя..." onInput={(e) => onSearchInput(e)}/>
+                                <button
+                                    onClick={() => onClickSearch()}
+                                    className="searchBtn"
+                                >Найти</button>
+                            </div>
                             <div className="tbl-header">
                                 <table cellPadding="0" cellSpacing="0" border="0">
                                     <thead>
@@ -55,14 +83,12 @@ export default function Users(props) {
                                     {
                                         users.map(user => {
                                             return (
-                                                <tr>
+                                                <tr key={user.id}>
                                                     <td>{user.id}</td>
                                                     <td>{user.name}</td>
                                                     <td>{user.email}</td>
                                                     <td>
-                                                        <button onClick={() => deleteBtn(user)} style={{
-                                                            color: 'red'
-                                                        }}>Удалить</button>
+                                                        <button onClick={() => deleteBtn(user)} className="deleteBtn">Удалить</button>
                                                     </td>
                                                 </tr>
                                             )

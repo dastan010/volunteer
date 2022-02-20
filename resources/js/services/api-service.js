@@ -8,4 +8,8 @@ export default class ApiService {
     async deleteUser(id) {
         return HTTP.delete(`/admin/users/${id}`);
     }
+
+    async searchUser(name) {
+        return HTTP.post('/admin/users/search-user', name);
+    }
 }
