@@ -104,4 +104,8 @@ section{
     color: darkred;
 }
 
+.back {
+    background: linear-gradient(0deg, #b0eeb1 0%, #2e9bd1 100%)
+}
+
 
